@@ -1,3 +1,4 @@
 ### Workspace ###
 .idea/
 venv/
+__pycache__/
