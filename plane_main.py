@@ -8,13 +8,13 @@ class PlaneGame(object):
         self.screen = pygame.display.set_mode(SCREEN_RECT.size)
         self.clock = pygame.time.Clock()
         self.__create_sprites()
+        pygame.time.set_timer(CREATE_ENEMY_EVENT, 1000)
 
     def __create_sprites(self):
-        bg1 = Background("images/background.png")
-        bg2 = Background("images/background.png")
-        bg2.rect.y = -bg2.rect.height
+        bg1 = Background()
+        bg2 = Background(True)
         self.back_group = pygame.sprite.Group(bg1, bg2)
-
+        self.enemy_group = pygame.sprite.Group()
 
     def start_game(self):
         print("游戏开始")
@@ -29,6 +29,10 @@ class PlaneGame(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 PlaneGame.__game_over()
+            if event.type == CREATE_ENEMY_EVENT:
+                print("敌机出场")
+                enemy = Enemy()
+                self.enemy_group.add(enemy)
 
     def __check_collide(self):
         pass
@@ -36,6 +40,8 @@ class PlaneGame(object):
     def __update_sprites(self):
         self.back_group.update()
         self.back_group.draw(self.screen)
+        self.enemy_group.update()
+        self.enemy_group.draw(self.screen)
 
     @staticmethod
     def __game_over():
